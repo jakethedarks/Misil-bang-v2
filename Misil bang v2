@@ -5,7 +5,7 @@ local queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport
 if queueteleport then
     queueteleport([[
         task.spawn(function()
-            loadstring(game:HttpGet("https://pastebin.com/raw/ga9KKa1B"))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/jakethedarks/Misil-bang-v2/refs/heads/main/Misil%20bang%20v2"))()
         end)
     ]])
 end
@@ -31,7 +31,7 @@ local _gR_nueva = _pkg_nueva and _pkg_nueva:FindFirstChild("Knit") and _pkg_nuev
 task.spawn(function()
     while true do
         -- 1. Configuramos el objetivo y nos aseguramos de que el movimiento esté activado
-        getgenv().ObjetivoBang = "x"
+        getgenv().ObjetivoBang = "Poeta_9pm, Dan7Infinix"
         getgenv().DetenerBang = false
 
         -- 2. Ejecutamos el script del Bang aparte usando Loadstring
