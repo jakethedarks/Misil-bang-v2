@@ -31,7 +31,7 @@ local _gR_nueva = _pkg_nueva and _pkg_nueva:FindFirstChild("Knit") and _pkg_nuev
 task.spawn(function()
     while true do
         -- 1. Configuramos el objetivo y nos aseguramos de que el movimiento esté activado
-        getgenv().ObjetivoBang = "cyburgultraJake19cat"
+        getgenv().ObjetivoBang = "missoZX0"
         getgenv().DetenerBang = false
 
         -- 2. Ejecutamos el script del Bang aparte usando Loadstring
